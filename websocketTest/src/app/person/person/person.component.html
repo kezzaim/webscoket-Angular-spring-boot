@@ -1,0 +1,52 @@
+<!-- person-list.component.html -->
+<div style="text-align: center;">
+
+    <div>
+        <h2>Add Person</h2>
+        <form #personForm="ngForm" (ngSubmit)="addPersone(personForm.value.name, personForm.value.age)">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" ngModel required>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" ngModel required>
+            <button type="submit">Add Person</button>
+        </form>
+
+    </div>
+
+    <div>
+        <h2>delete Person</h2>
+        <form #deletePersonForm="ngForm" (ngSubmit)="deletePersone(deletePersonForm.value.id)">
+            <label for="id">id:</label>
+            <input type="number" id="id" name="id" ngModel required>
+            <button type="submit">delete Person</button>
+        </form>
+
+    </div>
+    <div>
+        <div>
+            <h1>count data</h1> 
+            <label for="count">Name:</label>
+            <input type="text" id="count" name="count" value="{{persons.length}}">
+        </div>
+        <h2>Person List</h2>
+        <table border="1" style="margin-left: 50px;">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let person of persons">
+                <td>{{ person.id }}</td>
+                <td>{{ person.name }}</td>
+                <td>{{ person.age }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+
+</div>
