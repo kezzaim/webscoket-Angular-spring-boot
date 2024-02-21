@@ -13,6 +13,10 @@ export class PersonService{
         private http : HttpClient
       ){}
     
+      getUserID(): Observable<any>{
+        console.log("refresh person's list")
+        return this.http.get("http://localhost:2023/api/persons/user-id",{ responseType: 'text' });
+    }
     
     getAllPersons(): Observable<Person[]>{
         console.log("refresh person's list")

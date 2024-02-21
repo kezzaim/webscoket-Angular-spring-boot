@@ -14,10 +14,12 @@ public class WebSocketService {
         this.simpMessagingTemplate= simpMessagingTemplate;
     }
 
-    public void sendMessage(String sessionID, Object message) {
+    public void sendMessage(Object message) {
+       this.simpMessagingTemplate.convertAndSend("/queue/public", message);
+    }
+    public void sendMessageToUserId(String sessionID, Object message) {
         log.info("suffix : {}", sessionID);
-       this.simpMessagingTemplate.convertAndSend("/topic/public", message);
-//        this.simpMessagingTemplate.convertAndSendToUser("test","/topic/private", message);
+        this.simpMessagingTemplate.convertAndSendToUser(sessionID,"/queue/reply", message);
 
 
     }

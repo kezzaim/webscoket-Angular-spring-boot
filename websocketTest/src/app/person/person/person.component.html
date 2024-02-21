@@ -1,52 +1,101 @@
 <!-- person-list.component.html -->
-<div style="text-align: center;">
+<div style="text-align: center">
+  <div>
+    <h2>Add Person</h2>
+    <form
+      #personForm="ngForm"
+      (ngSubmit)="addPersone(personForm.value.name, personForm.value.age)"
+    >
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" ngModel required />
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" ngModel required />
+      <button type="submit">Add Person</button>
+    </form>
+  </div>
 
+  <div>
+    <h2>delete Person</h2>
+    <form
+      #deletePersonForm="ngForm"
+      (ngSubmit)="deletePersone(deletePersonForm.value.id)"
+    >
+      <label for="id">id:</label>
+      <input type="number" id="id" name="id" ngModel required />
+      <button type="submit">delete Person</button>
+    </form>
+  </div>
+
+  <div>
     <div>
-        <h2>Add Person</h2>
-        <form #personForm="ngForm" (ngSubmit)="addPersone(personForm.value.name, personForm.value.age)">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" ngModel required>
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" ngModel required>
-            <button type="submit">Add Person</button>
-        </form>
-
+      <h1>count data</h1>
+      <label for="count">Name:</label>
+      <input type="text" id="count" name="count" value="{{ persons.length }}" />
     </div>
 
     <div>
-        <h2>delete Person</h2>
-        <form #deletePersonForm="ngForm" (ngSubmit)="deletePersone(deletePersonForm.value.id)">
-            <label for="id">id:</label>
-            <input type="number" id="id" name="id" ngModel required>
-            <button type="submit">delete Person</button>
-        </form>
+      <div class="float-container">
+        <div class="float-child">
+          <div class="green">
+            <h2>Person List</h2>
 
-    </div>
-    <div>
-        <div>
-            <h1>count data</h1> 
-            <label for="count">Name:</label>
-            <input type="text" id="count" name="count" value="{{persons.length}}">
+            <table mat-table [dataSource]="persons" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> Id. </th>
+                  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="age">
+                  <th mat-header-cell *matHeaderCellDef> Age </th>
+                  <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            <!-- <table border="1" style="margin-left: 50px">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let person of persons">
+                  <td>{{ person.id }}</td>
+                  <td>{{ person.name }}</td>
+                  <td>{{ person.age }}</td>
+                </tr>
+              </tbody>
+            </table> -->
+          </div>
         </div>
-        <h2>Person List</h2>
-        <table border="1" style="margin-left: 50px;">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let person of persons">
-                <td>{{ person.id }}</td>
-                <td>{{ person.name }}</td>
-                <td>{{ person.age }}</td>
-            </tr>
-            </tbody>
-        </table>
+
+        <div class="float-child">
+          <div class="blue">
+            <h2 style="color: mediumseagreen;">messages</h2>
+            <br>
+            <div>
+                <ul *ngFor="let msg of messages">
+                    <li>{{msg}}</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    
-
+  </div>
 </div>

@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PersonService } from './person/person/person.service';
 import { FormsModule } from '@angular/forms';
 import { WebsocketService } from './config/websocket/websocket.service';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { WebsocketService } from './config/websocket/websocket.service';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatTableModule
   ],
   providers: [WebSocketAPI,PersonService, WebsocketService],
   bootstrap: [AppComponent]

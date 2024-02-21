@@ -1,12 +1,14 @@
 package web.socket.demo.person;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import web.socket.demo.WebsocketApplication;
 import web.socket.demo.websocket.WebSocketService;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class PersonAPI {
     @GetMapping("/api/persons")
     public String getPerson() {
         log.info("this api person");
-        return "this api person";
+        return "aoi person";
     }
 
     //    @MessageMapping("/api/persons/list")
@@ -51,19 +53,26 @@ public class PersonAPI {
         log.info("save a person : {}", person);
         person = this.personRepository.save(person);
         String sessionId = headerAccessor.getSessionId();
-        log.info("session id : {} ", sessionId);
-        this.webSocketService.sendMessage(sessionId, "back end : save person : " + person.toString());
+        log.info("save : session id : {} ", sessionId);
+        this.webSocketService.sendMessageToUserId(sessionId, "back end : save person : " + person);
+//        this.webSocketService.sendMessage("back end : save person : " + person);
         return person;
     }
 
     @MessageMapping("/persons/delete")
     @Transactional
     // @SendTo("/topic/public")
-    public String deletePerson(@Payload int id) {
+    public String deletePerson(@Payload int id, SimpMessageHeaderAccessor headerAccessor) {
         log.info("save a person : {}", id);
         this.personRepository.deleteById(id);
-        this.webSocketService.sendMessage("public", "back end : delete person : " + id);
+        String sessionId = headerAccessor.getSessionId();
+        log.info("delete : session id : {} ", sessionId);
+        this.webSocketService.sendMessage("back end : delete person : " + id);
 
         return "person has deleted by id : " + id;
+    }
+
+    private String getUserId(){
+        return WebsocketApplication.PERSON_ID.get(1);
     }
 }
